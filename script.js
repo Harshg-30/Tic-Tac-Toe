@@ -1,4 +1,4 @@
-console.log('Welcome to TicTacToe');
+
 let turnaudio = new Audio("ting.mp3");
 let gameoveraudio = new Audio("gameover.mp3");
 let turn = "X";
@@ -23,16 +23,34 @@ const checkWin = () => {
     ]
     wins.forEach(e => {
         if ((boxtext[e[0]].innerText === boxtext[e[1]].innerText) && (boxtext[e[1]].innerText === boxtext[e[2]].innerText) && (boxtext[e[0]].innerText !== "")) {
-            document.querySelector(".info").innerText = boxtext[e[0]].innerText + " Won"
+            document.querySelector(".info").innerText = boxtext[e[0]].innerText + " Won" +"\nPlease Reset!"
             gameover = true;
             document.querySelector('.imgbox').getElementsByTagName('img')[0].style.width = "8rem";
             document.querySelector('.line').style.width = "20vw";
             document.querySelector('.line').style.transform = `translate(${e[3]}vw ,${e[4]}vw) rotate(${e[5]}deg)`;
-            gameoveraudio.play();
+            gameoveraudio.play();            
         }
     })
 }
-
+// Function to check draw between the players
+const checkDraw = () => {
+    let boxtext = document.getElementsByClassName('boxtext');
+        if (boxtext[0].innerText !=="" &&
+            boxtext[1].innerText !=="" && 
+            boxtext[2].innerText !=="" && 
+            boxtext[3].innerText !=="" && 
+            boxtext[4].innerText !=="" && 
+            boxtext[5].innerText !=="" && 
+            boxtext[6].innerText !=="" && 
+            boxtext[7].innerText !=="" && 
+            boxtext[8].innerText !=="" 
+         ) {
+            document.querySelector(".info").innerText = "OOPs! It's a tie" +"\nPlease Reset!"
+            gameover = true;
+            document.querySelector('.imgbox').getElementsByTagName('img')[1].style.width = "8rem";
+            gameoveraudio.play();
+        }
+}
 // Game Logic 
 let boxes = document.getElementsByClassName("box");
 Array.from(boxes).forEach(element => {
@@ -45,6 +63,7 @@ Array.from(boxes).forEach(element => {
             checkWin();
             if (!gameover) {
                 document.getElementsByClassName("info")[0].innerText = "Turn for " + turn;
+                checkDraw();
             }
         }
     })
@@ -60,5 +79,7 @@ reset.addEventListener('click', () => {
     document.querySelector('.line').style.width = "0";
     document.getElementsByClassName("info")[0].innerText = "Turn for " + turn;
     document.querySelector('.imgbox').getElementsByTagName('img')[0].style.width = "0";
+    document.querySelector('.imgbox').getElementsByTagName('img')[1].style.width = "0";
+
 
 })
